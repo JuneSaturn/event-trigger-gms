@@ -27,7 +27,7 @@ if (!current_command_is(NONE)) {
 		if (commands[command_index].effect == "rpg") {
 			opacity = 1;
 			if (text_count < string_length(commands[command_index].text)) {
-			    text_count += text_speed;
+			    text_count += commands[command_index].spd;
 			    displayed_text = string_copy(commands[command_index].text, 1, floor(text_count));
 			}
 		}
@@ -45,6 +45,8 @@ if (!current_command_is(NONE)) {
 	
 		// When OK is pressed
 		if (pressed_ok()) {
+			text_count = 0;
+			
 			// End the event if this is the last command.
 			if (command_index >= array_length(commands)-1) {
 				command_index++;

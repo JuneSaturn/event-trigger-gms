@@ -15,7 +15,10 @@
     "name":"EventSystem",
     "path":"folders/EventSystem.yy",
   },
-  "parentObjectId":null,
+  "parentObjectId":{
+    "name":"oBlock",
+    "path":"objects/oBlock/oBlock.yy",
+  },
   "persistent":false,
   "physicsAngularDamping":0.1,
   "physicsDensity":0.5,
