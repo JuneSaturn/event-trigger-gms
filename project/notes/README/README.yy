@@ -1,0 +1,12 @@
+{
+  "$GMNotes":"v2",
+  "%Name":"README",
+  "name":"README",
+  "openedOnFirstLoad":true,
+  "parent":{
+    "name":"EventSystem",
+    "path":"folders/EventSystem.yy",
+  },
+  "resourceType":"GMNotes",
+  "resourceVersion":"2.0",
+}
