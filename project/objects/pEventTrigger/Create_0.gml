@@ -67,7 +67,7 @@
 #macro ENDED       ["end", "ended", "fin", "eventended", "event-ended", "evendend", "event-end"]
 
 #macro DIALOGUE    ["dialogue", "dialog"]
-#macro TEXT        ["text", "txt", "pleintext", "plein-text", "pleintxt", "plein-txt"]
+#macro TEXT        ["text", "txt", "plaintext", "plain-text", "plaintxt", "plain-txt"]
 #macro AUDIO       ["audio", "sound", "snd"]
 #macro SHOWPICTURE ["showpicture", "show-picture", "showpic", "show-pic", "picture", "pic"]
 #macro GOTO        ["goto", "go-to", "transfer"]
