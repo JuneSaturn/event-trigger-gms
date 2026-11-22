@@ -1,3 +1,7 @@
+if (current_command_is(NONE) or current_command_is(ENDED)) {
+	exit;
+}
+
 // End the event if command_index is out of range.
 if (command_index >= array_length(commands)) {
 	end_event();
@@ -45,7 +49,10 @@ if (!current_command_is(NONE)) {
 	
 		// When OK is pressed
 		if (pressed_ok()) {
+			speaker_name = "";
+			displayed_text = "";
 			text_count = 0;
+			text_speed = 0;
 			
 			// End the event if this is the last command.
 			if (command_index >= array_length(commands)-1) {
@@ -187,35 +194,43 @@ if (!current_command_is(NONE)) {
 	}
 	
 	
-	// CALC
+	// CODE
 	// ---------------------------------------------------------------------------
-	else if (current_command_is(CALC)) {
-		// The CALC command works the same whether blocking is true or false.
+	else if (current_command_is(CODE)) {
+		// The CODE command works the same whether blocking is true or false.
 		blocking = false;
 		
-		var _l_value = commands[command_index].l_value;
-		var _r_value = commands[command_index].r_value;
-		
-		switch(commands[command_index].op) {
-			case "+":
-				commands[command_index].assignee = _l_value + _r_value;
-			break;
-			case "-":
-				commands[command_index].assignee = _l_value - _r_value;
-			break;
-			case "*": case "×":
-				commands[command_index].assignee = _l_value * _r_value;
-			break;
-			case "/": case "÷":
-				commands[command_index].assignee = _l_value / _r_value;
-			break;
-			case "%": case "mod":
-				commands[command_index].assignee = _l_value % _r_value;
-			break;
-		}
+		var _func  = commands[command_index].func;
+		var _bound_func = method(id, _func);
+		_bound_func();
 		
 		// Go on to the next command.
 		command_index++;
+	}
+	
+	
+	// CHOICE
+	// ---------------------------------------------------------------------------
+	else if (current_command_is(CHOICE)) {
+		// The CHOICE command blocks until the selection is made.
+		blocking = true;
+		
+		// Move the selection.
+		if (pressed_up()) {
+			if (choice_index > 0) choice_index--;
+		}
+		else if (pressed_down()) {
+			if (choice_index < array_length(commands[command_index].choices)-1) choice_index++;
+		}
+		
+		// When OK is pressed
+		if (pressed_ok()) {
+			// Go on to the next command.
+			command_index++;
+			
+			// Reset choice_index.
+			choice_index = 0;
+		}
 	}
 	
 	
@@ -276,6 +291,14 @@ if (!current_command_is(NONE)) {
 	
 	// When no handler matches the current command
 	else {
+	}
+
+	// Keep current_command in sync with command_index before Draw GUI runs.
+	if (!current_command_is(ENDED)) {
+		if (command_index >= array_length(commands)) {
+			end_event();
+		}
+		else current_command = commands[command_index].cmd;
 	}
 
 }

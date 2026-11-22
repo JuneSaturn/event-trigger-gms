@@ -1,5 +1,13 @@
 /*=============================================================================================
 
+	MM   MM   AA    CCCCC DDDDD  U    U FFFFFF FFFFFF
+	M M M M  A  A  C      D    D U    U F      F
+	M  M  M AAAAAA C      D    D U    U FFFFFF FFFFFF
+	M     M A    A  CCCCC DDDDD   UUUU  F      F
+	-------------------------------------------------
+	------------------------------------------ ★  ★ ★
+	----------------------------------- ★   ★  ★  ★ ★
+	
 	Event Trigger System (For GameMaker) v 1.0
 	
 	EVENT TRIGGER PARENT
@@ -13,17 +21,15 @@
 /*---------------------------------------------------------------------------------------------
 
 	*** HOW TO USE ***
+	d
 	
-	
-	■ Event commands
+	■ Event Commands
 	□ Write each command as a struct in the commands array.
 	___________________________________________________
 	
 	dialogue OR dialog _ Displays text. Useful for character dialogue.
 	{ cmd: "dialog", speaker: "name", effect: "rpg", spd: 1, text: "Text to display" }
 	- effect: "rpg" reveals the text character by character. Any other value shows the full text at once.
-	- NOTE: speaker and spd are not used yet. As a result, "rpg" text does not appear.
-	- NOTE: The "text" and "txt" commands are not implemented yet.
 	
 	audio _ Plays a sound.
 	{ cmd: "audio", sound_id: sound asset, priority: number, loops: "true" or "false" }
@@ -36,13 +42,9 @@
 	{ cmd: "goto", room_id: room asset }
 	- NOTE: Remaining commands do not carry over unless this instance is persistent.
 	
-	calc _ Performs a calculation.
-	{ cmd: "calc", l_value: number, op: "+", r_value: number, assignee: initial value }
-	- op: "+", "-", "*" (or "×"), "/" (or "÷"), "%" (or "mod")
-	- l_value and r_value are evaluated when the commands array is created.
-	- NOTE: The result is stored in the assignee field. The variable passed to it is not changed.
-	
-	
+	code _ Executes a function.
+	{ cmd: "code", func: function() { code here } },
+	- NOTE: Local variables (var) declared outside func cannot be used inside it.
 	
 	
 	■ Triggers
@@ -76,7 +78,10 @@
 #macro ELSE        ["else"]
 #macro ENDIF       ["endif", "ifend"]
 #macro SLEEP       ["sleep", "wait"]
-#macro CALC        ["calc", "cal", "calculate"]
+#macro CODE        ["code", "script"]
+#macro CHOICE      ["choice", "choix"]
+#macro CASE        ["case"]
+#macro ENDCASE     ["endcase", "end-case", "caseend", "case-end"]
 
 #macro MONEY       ["money", "gold", "dollar"]
 
@@ -96,10 +101,7 @@ frame = 0.1;
 start_frame = 0;
 end_frame = 0;
 asset_id = pointer_null;
-
-// If, Else, End If
-if_opened = 0;
-if_length = 0;
+auto_ended = false;
 
 // Dialogue, Plain Text, System Notification, System Message
 speaker_name = "";
@@ -107,8 +109,21 @@ displayed_text = "";
 text_count = 0;
 text_speed = 0;
 
+// If, Else, End If
+if_opened = 0;
+if_length = 0;
+choice_index = 0;
+
 // Miscellaneous
 player = oPlayer;
+
+// Local switches
+local_switch = {
+	A: false,
+	B: false,
+	C: false,
+	D: false
+};
 
 // ---------------------------------------------------------------------------
 
@@ -141,11 +156,24 @@ function current_command_is(const) {
 	return array_contains(const, current_command);
 }
 
-// Returns true when the OK key (Space) is pressed.
+// Checks whether the previvous command matches any of the given names.
+function previous_command_is(const) {
+	if (command_index < 1) return false
+	return array_contains(const, commands[command_index-1].cmd);
+}
+
+// Returns true when the OK key (SPACE) is pressed.
 function pressed_ok() {
 	return keyboard_check_pressed(vk_space);
 }
 
+// Return true when the corresponding arrow key (UP or DOWN) is pressed.
+function pressed_up() {
+	return keyboard_check_pressed(vk_up) or mouse_wheel_up();
+}
+function pressed_down() {
+	return keyboard_check_pressed(vk_down) or mouse_wheel_down();
+}
 
 
 
@@ -158,19 +186,8 @@ function pressed_ok() {
 
 =============================================================================================*/
 
-// Event commands, executed from top to bottom (from index 0 to the last index).
-commands = [
-	{ cmd: "sleep", duration: 30 },
-	{ cmd: "dialog", speaker: "Player", effect: "rpg", spd: 1, text: "I'm here, come out!" },
-	{ cmd: "audio", sound_id: sndDiscord, priority: 0, loops: true },
-	{ cmd: "if", func: function() { return 5+5 == 10 } },
-		{ cmd: "calc", l_value: global.potential, op: "+", r_value: 5, assignee: global.potential },
-	{ cmd: "else" },
-		{ cmd: "calc", l_value: global.potential, op: "-", r_value: 2, assignee: global.potential },
-	{ cmd: "endif" },
-	{ cmd: "money", op: "+", amount: 500 },
-	{ cmd: "dialog", speaker: "Player", effect: "rpg", spd: 1, text: "Hello World." },
-];
+// Default direction
+direction = 270;
 
 // Event info
 info = {
@@ -179,13 +196,20 @@ info = {
 	name: "",
 
 	// Trigger condition
-	trigger: "touched"
+	trigger: "touched",
+	
+	// If true, the target must be facing this object to trigger the event.
+	requires_facing: false
 	
 };
 
-local_switch = {
-	A: false,
-	B: false,
-	C: false,
-	D: false
-};
+// Event commands, executed from top to bottom (from index 0 to the last index).
+commands = [
+	
+	
+	
+	
+	
+	
+	
+];

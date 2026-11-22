@@ -16,8 +16,8 @@
     "path":"folders/EventSystem.yy",
   },
   "parentObjectId":{
-    "name":"oBlock",
-    "path":"objects/oBlock/oBlock.yy",
+    "name":"oCollider",
+    "path":"objects/oCollider/oCollider.yy",
   },
   "persistent":false,
   "physicsAngularDamping":0.1,

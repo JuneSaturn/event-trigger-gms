@@ -9,6 +9,11 @@
 
 =============================================================================================*/
 
+#macro RIGHT 0
+#macro UP    90
+#macro LEFT  180
+#macro DOWN  270
+
 global.event_status = {
 
 	owner: pointer_null,
@@ -16,10 +21,22 @@ global.event_status = {
 		
 };
 
-global.potential = 0;
+global.event_drawing = {
+	
+	horizontal_align: fa_left,
+	vertical_align: fa_top,
+	
+};
 
+global.potential = 0;
 global.money = 0;
 
 global.event_switches[1028] = [false];
 
 global.entity_freeze = false;
+
+global.settings = {
+	
+	allow_skip_text_effect: true
+	
+}

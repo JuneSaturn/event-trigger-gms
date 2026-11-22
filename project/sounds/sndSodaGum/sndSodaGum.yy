@@ -1,6 +1,6 @@
 {
   "$GMSound":"v2",
-  "%Name":"sndDiscord",
+  "%Name":"sndSodaGum",
   "audioGroupId":{
     "name":"audiogroup_default",
     "path":"audiogroups/audiogroup_default",
@@ -10,9 +10,9 @@
   "compression":0,
   "compressionQuality":4,
   "conversionMode":0,
-  "duration":2.1942856,
+  "duration":2.093696,
   "exportDir":"",
-  "name":"sndDiscord",
+  "name":"sndSodaGum",
   "parent":{
     "name":"Sounds",
     "path":"folders/Sounds.yy",
@@ -21,6 +21,6 @@
   "resourceType":"GMSound",
   "resourceVersion":"2.0",
   "sampleRate":44100,
-  "soundFile":"sndDiscord.ogg",
+  "soundFile":"sndSodaGum.ogg",
   "volume":1.0,
 }
